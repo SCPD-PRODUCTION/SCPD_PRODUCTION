@@ -17,29 +17,68 @@
 
     <main>
         <section class="social-section">
-            <a href="tiktok.com/@scpd_production
-" target="_blank" class="btn-social">
+            <a href="https://www.tiktok.com/@scpd_production" target="_blank" class="btn-social">
                 <img src="assets/tiktok.png" alt="TikTok Logo"> TikTok
             </a>
-            <a href="
-https://www.instagram.com/scpd_production?igsh=MTZqYWpqZWV6cHk2ag== " target="_blank" class="btn-social">
+            <a href="https://www.instagram.com/scpd_production" target="_blank" class="btn-social">
                 <img src="assets/instagram.png" alt="Instagram Logo"> Instagram
             </a>
-            <a href="https://youtube.com/@scpd_production12x?si=by5okuMlAHqTZRbC
-" target="_blank" class="btn-social">
+            <a href="https://youtube.com/@scpd_production12x" target="_blank" class="btn-social">
                 <img src="assets/youtube.png" alt="YouTube Logo"> YouTube
             </a>
         </section>
 
         <section class="products">
             <h2>Produk Kami</h2>
-            <div id="product-list" class="product-list">
-                <!-- Produk akan muncul dari Firestore -->
+            <div id="product-container" class="product-list">
+                <!-- Produk akan muncul dari data.json -->
+            </div>
+        </section>
+
+        <section class="contents">
+            <h2>Konten Kami</h2>
+            <div id="content-container" class="content-list">
+                <!-- Konten akan muncul dari data.json -->
             </div>
         </section>
     </main>
 </div>
 
-<script type="module" src="script.js"></script>
+<script>
+async function loadProducts() {
+    const res = await fetch("data.json");
+    const data = await res.json();
+    const container = document.getElementById("product-container");
+    container.innerHTML = "";
+    data.products.forEach(p => {
+        container.innerHTML += `
+            <div class="product-card">
+                <img src="${p.image}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <p>${p.price}</p>
+            </div>
+        `;
+    });
+}
+
+async function loadContents() {
+    const res = await fetch("data.json");
+    const data = await res.json();
+    const container = document.getElementById("content-container");
+    container.innerHTML = "";
+    data.contents.forEach(c => {
+        container.innerHTML += `
+            <div class="content-card">
+                <h3>${c.title}</h3>
+                <p>${c.body}</p>
+            </div>
+        `;
+    });
+}
+
+loadProducts();
+loadContents();
+</script>
+
 </body>
 </html>
